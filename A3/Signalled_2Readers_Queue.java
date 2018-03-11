@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  
 class Signalled_2Readers_Queue implements Queue{
 	volatile int n=0;
-        volatile int turn=0;
+        volatile int turn=2;
 	
 	
 	@Override

@@ -21,31 +21,29 @@ class Signalled_2Readers_Queue implements Queue{
 	
 	
 	@Override
-	public void read(int ID) {
+	synchronized public void read(int ID) {
 		// TODO Auto-generated method stub
 		if(turn==ID){ // SI ES IGUAL ID , PRINT Y LE SUMO 1 PARA QUE SEA EL TURNO DEL SIGUIENTE Y LUEGO LO PONGO A 0 PARA QUE VUELVA EL WRITER
-                    try {
-                        wait();
-                    } catch (InterruptedException ex) {
-                    }
-                }
                 System.out.println("ID:  "+ID+"  Value:"+n);
-                turn = 0;
+                turn++;
                 notifyAll();
+    				}
+    
+    try {wait();} catch (InterruptedException ex) {}
 	}
 	
 
 	@Override
-	public void write(int x) {
+	synchronized public void write(int x) {
 		// TODO Auto-generated method stub
-		if (turn!=0){
+		if (turn!=2){
                     try {
                         wait();
                     } catch (InterruptedException ex) {
                     }
                 }
                 n=x;
-                turn=1;
+                turn=0;
                 notifyAll();
 	}
 	

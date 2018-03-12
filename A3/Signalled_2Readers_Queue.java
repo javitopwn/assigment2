@@ -16,18 +16,25 @@ import java.util.logging.Logger;
  */
  
 class Signalled_2Readers_Queue implements Queue{
-	volatile int n=0;
-        volatile int turn=2;
+	int n=0;
+        int turn=2;
 	
 	
 	@Override
 	synchronized public void read(int ID) {
 		// TODO Auto-generated method stub
-		if(turn==ID){ // SI ES IGUAL ID , PRINT Y LE SUMO 1 PARA QUE SEA EL TURNO DEL SIGUIENTE Y LUEGO LO PONGO A 0 PARA QUE VUELVA EL WRITER
+                while(turn!=ID){
+                    try {
+                        wait();
+                    } catch (InterruptedException ex) {
+                        
+                    }
+                }
+		 // SI ES IGUAL ID , PRINT Y LE SUMO 1 PARA QUE SEA EL TURNO DEL SIGUIENTE Y LUEGO LO PONGO A 0 PARA QUE VUELVA EL WRITER
                 System.out.println("ID:  "+ID+"  Value:"+n);
                 turn++;
                 notifyAll();
-    				}
+    				
     
     try {wait();} catch (InterruptedException ex) {}
 	}
@@ -36,7 +43,7 @@ class Signalled_2Readers_Queue implements Queue{
 	@Override
 	synchronized public void write(int x) {
 		// TODO Auto-generated method stub
-		if (turn!=2){
+		while (turn!=2){
                     try {
                         wait();
                     } catch (InterruptedException ex) {
@@ -44,6 +51,7 @@ class Signalled_2Readers_Queue implements Queue{
                 }
                 n=x;
                 turn=0;
+                System.out.println("Writes");
                 notifyAll();
 	}
 	
@@ -57,6 +65,4 @@ class Signalled_2Readers_Queue implements Queue{
 	
 	
 }
-
-
 

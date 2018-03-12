@@ -93,7 +93,7 @@ class Counter {
         display.setvalue(value);
     }
 
-    synchronized void increment(int id) {
+    synchronized void increment(int id) {	//gives mutual exclusion to all methods that use this synchronized method
         
         int temp = value;   //read[v]
         CC.ForceCC();
@@ -115,7 +115,7 @@ class Turnstile extends Thread {
   Turnstile(NumberCanvas n,Counter c)
     { display = n; people = c; }
 
-  public synchronized void run() { 
+  public void run() { 
     try{
       display.setvalue(0);
       for (int i=1;i<=Garden.MAX;i++){

@@ -30,7 +30,7 @@ class Signalled_2Readers_Queue implements Queue{
                         
                     }
                 }
-		 // SI ES IGUAL ID , PRINT Y LE SUMO 1 PARA QUE SEA EL TURNO DEL SIGUIENTE Y LUEGO LO PONGO A 0 PARA QUE VUELVA EL WRITER
+		
                 System.out.println("ID:  "+ID+"  Value:"+n);
                 turn++;
                 notifyAll();

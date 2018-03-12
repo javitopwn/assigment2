@@ -13,8 +13,8 @@ import java.util.logging.Logger;
  */
  
 class Signalled_Queue implements Queue{
-	volatile int n=0;
-	volatile boolean readerTurn=false;
+	int n=0;
+	boolean readerTurn=false;
 	@Override
 	synchronized public void read() {
 		// TODO Auto-generated method stub
@@ -55,3 +55,4 @@ class Signalled_Queue implements Queue{
 	
 	
 }
+

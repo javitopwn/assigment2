@@ -1,4 +1,3 @@
-
 package concurrent_assignment2.B2;
 
 
@@ -76,8 +75,8 @@ public class Garden extends Applet {
         
         counter = new Counter(counterD);
        
-        turnstile1= new Turnstile(turn1D,counter,0);
-        turnstile2= new Turnstile(turn2D,counter,1);
+        turnstile1= new Turnstile(turn1D,counter);
+        turnstile2= new Turnstile(turn2D,counter);
         turnstile1.start();
         turnstile2.start();
     }
@@ -85,7 +84,7 @@ public class Garden extends Applet {
 }
 
 class Counter {
-    volatile int turn;
+    int turn;
     int value=0;
     NumberCanvas display;
 
@@ -95,17 +94,13 @@ class Counter {
     }
 
     synchronized void increment(int id) {
-        if(this.turn!=id){
-            try {
-                    wait();
-             } catch (InterruptedException ex) {}
-        }
+        
         int temp = value;   //read[v]
         CC.ForceCC();
         value=temp+1;       //write[v+1]
         display.setvalue(value);
         this.turn=1-id;
-        notifyAll();
+        
     }
 }
 
@@ -115,10 +110,10 @@ class Counter {
 class Turnstile extends Thread {
   NumberCanvas display;
   Counter people;
-  volatile int id;
+  int id;
 
-  Turnstile(NumberCanvas n,Counter c, int id)
-    { display = n; people = c;this.id=id; }
+  Turnstile(NumberCanvas n,Counter c)
+    { display = n; people = c; }
 
   public synchronized void run() { 
     try{

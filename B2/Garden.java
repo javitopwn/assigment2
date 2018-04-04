@@ -99,7 +99,7 @@ class Counter {
         CC.ForceCC();
         value=temp+1;       //write[v+1]
         display.setvalue(value);
-        this.turn=1-id;
+        
         
     }
 }
